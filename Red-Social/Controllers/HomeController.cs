@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Red_Social.Middlewares;
 using Red_Social.Models;
 using System.Diagnostics;
 
@@ -7,14 +8,20 @@ namespace Red_Social.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ValidateUserSession _validateUserSession;
+        public HomeController(ILogger<HomeController> logger, ValidateUserSession validateUserSession)
         {
+            _validateUserSession = validateUserSession;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "User", action = "Index" });
+            }
+
             return View();
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -28,6 +29,10 @@ namespace Red_Social.Core.Application.ViewModels.User
         [DataType(DataType.Text)]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Debe colocar un apellido")]
+        [DataType(DataType.Text)]
+        public string? LastName { get; set; }
+
         [Required(ErrorMessage = "Debe colocar un correo")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
@@ -35,5 +40,11 @@ namespace Red_Social.Core.Application.ViewModels.User
         [Required(ErrorMessage = "Debe colocar un telefono")]
         [DataType(DataType.Text)]
         public string Phone { get; set; }
+
+        public string? Photo { get; set; }
+
+        [DataType(DataType.Upload)]
+        public IFormFile? File { get; set; }
+
     }
 }

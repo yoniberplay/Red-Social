@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Red-Social.Infrastucture.Persistence\Red-Social.Infrastucture.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
 </Project>

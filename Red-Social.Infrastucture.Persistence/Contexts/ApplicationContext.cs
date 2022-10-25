@@ -138,6 +138,10 @@ namespace Red_Social.Infrastructure.Persistence.Contexts
                 .IsRequired();
 
             modelBuilder.Entity<User>().
+                Property(user => user.LastName)
+                .IsRequired();
+
+            modelBuilder.Entity<User>().
                Property(user => user.Username)
                .IsRequired();
 

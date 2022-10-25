@@ -42,8 +42,10 @@ namespace Red_Social.Core.Application.Services
             User user = await _userRepository.GetByIdAsync(vm.Id);
             user.Id = vm.Id;
             user.Name = vm.Name;
+            user.LastName = vm.LastName;
             user.Username = vm.Username;
             user.Password = vm.Password;
+            user.Photo = vm.Photo;
             user.Phone = vm.Phone;
             user.Email = vm.Email;
 
@@ -55,16 +57,18 @@ namespace Red_Social.Core.Application.Services
             User user = new();
             user.Name = vm.Name;
             user.Username = vm.Username;
+            user.LastName = vm.LastName;
             user.Password = vm.Password;
             user.Phone = vm.Phone;
-            user.Email = vm.Email;       
-
+            user.Email = vm.Email;
+            
             user = await _userRepository.AddAsync(user);
 
             SaveUserViewModel userVm = new();
 
             userVm.Id = user.Id;
             userVm.Name = user.Name;
+            userVm.LastName = user.LastName;
             userVm.Phone = user.Phone;
             userVm.Email = user.Email;
             userVm.Username = user.Username;
