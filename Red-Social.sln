@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Red-Social", "Red-Social\Red-Social.csproj", "{630DCF71-15A9-4C7B-9382-E2ADDF35BD2B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{1BFAB8E6-1B23-414B-9013-5ACC703CB8FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E7E30A7E-81E0-4DA2-AD45-3746B7A6A177}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{89CAFA15-EC14-4EF9-A919-94F9CA82B390}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentacion", "Presentacion", "{309CAA9A-8315-4B7F-A57B-8BF9D66494CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{77C25277-C12E-446A-B5BC-191EDAAB7FD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Red-Social.Core.Application", "Red-Social.Core.Application\Red-Social.Core.Application.csproj", "{48762996-0DE2-4A9C-96F8-9E71B96ABA9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Red-Social.Core.Domain", "Red-Social.Core.Domain\Red-Social.Core.Domain.csproj", "{A1D71C6A-5486-4457-99DF-7FACBB63CA2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Red-Social.Infrastucture.Persistence", "Red-Social.Infrastucture.Persistence\Red-Social.Infrastucture.Persistence.csproj", "{C377F20B-EC20-42EF-B2B5-18DFC4608D11}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{630DCF71-15A9-4C7B-9382-E2ADDF35BD2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{630DCF71-15A9-4C7B-9382-E2ADDF35BD2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{630DCF71-15A9-4C7B-9382-E2ADDF35BD2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{630DCF71-15A9-4C7B-9382-E2ADDF35BD2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48762996-0DE2-4A9C-96F8-9E71B96ABA9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48762996-0DE2-4A9C-96F8-9E71B96ABA9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48762996-0DE2-4A9C-96F8-9E71B96ABA9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48762996-0DE2-4A9C-96F8-9E71B96ABA9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1D71C6A-5486-4457-99DF-7FACBB63CA2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1D71C6A-5486-4457-99DF-7FACBB63CA2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1D71C6A-5486-4457-99DF-7FACBB63CA2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1D71C6A-5486-4457-99DF-7FACBB63CA2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C377F20B-EC20-42EF-B2B5-18DFC4608D11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C377F20B-EC20-42EF-B2B5-18DFC4608D11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C377F20B-EC20-42EF-B2B5-18DFC4608D11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C377F20B-EC20-42EF-B2B5-18DFC4608D11}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{630DCF71-15A9-4C7B-9382-E2ADDF35BD2B} = {77C25277-C12E-446A-B5BC-191EDAAB7FD5}
+		{E7E30A7E-81E0-4DA2-AD45-3746B7A6A177} = {1BFAB8E6-1B23-414B-9013-5ACC703CB8FB}
+		{89CAFA15-EC14-4EF9-A919-94F9CA82B390} = {1BFAB8E6-1B23-414B-9013-5ACC703CB8FB}
+		{309CAA9A-8315-4B7F-A57B-8BF9D66494CD} = {1BFAB8E6-1B23-414B-9013-5ACC703CB8FB}
+		{77C25277-C12E-446A-B5BC-191EDAAB7FD5} = {309CAA9A-8315-4B7F-A57B-8BF9D66494CD}
+		{48762996-0DE2-4A9C-96F8-9E71B96ABA9F} = {E7E30A7E-81E0-4DA2-AD45-3746B7A6A177}
+		{A1D71C6A-5486-4457-99DF-7FACBB63CA2C} = {E7E30A7E-81E0-4DA2-AD45-3746B7A6A177}
+		{C377F20B-EC20-42EF-B2B5-18DFC4608D11} = {89CAFA15-EC14-4EF9-A919-94F9CA82B390}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EC6976E0-F143-40B0-AF72-338839CD94FB}
+	EndGlobalSection
+EndGlobal
