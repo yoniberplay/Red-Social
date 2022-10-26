@@ -1,6 +1,7 @@
 using Red_Social.Infrastructure.Persistence;
 using Red_Social.Middlewares;
 using Red_Social.Core.Application;
+using Red_Social.Infrastucture.Shared.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddPersistenceInfrastructure(builder.Configuration);
 builder.Services.AddApplicationLayer(builder.Configuration);
+builder.Services.AddShareInfrastructure(builder.Configuration);
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<ValidateUserSession, ValidateUserSession>();
 

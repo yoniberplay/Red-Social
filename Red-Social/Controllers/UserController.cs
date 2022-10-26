@@ -124,9 +124,18 @@ namespace Red_Social.Controllers
             }
             try
             {
+               
+                UserViewModel uvm = await _userService.Restorepass(fm);
+                if (uvm == null)
+                {
+                    ModelState.AddModelError("Username", "El usuario no existe.");
+                    return View(fm);
+                }
+                else
+                { //ENVIO DE CORREO AL USUARIO CON CLAVE NUEVA
 
-                //ENVIO DE CORREO AL USUARIO CON CLAVE NUEVA
-                // await _userService.Add(fm);
+                }
+              
             }
             catch
             {

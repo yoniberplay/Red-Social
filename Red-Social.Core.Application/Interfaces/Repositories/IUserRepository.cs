@@ -12,5 +12,6 @@ namespace Red_Social.Core.Application.Interfaces.Repositories
     public interface IUserRepository : IGenericRepository<User>
     {
         Task<User> LoginAsync(LoginViewModel loginVm);
+        Task<User> GetByUsernameAsync(string? username);
     }
 }

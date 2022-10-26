@@ -24,6 +24,12 @@ namespace Red_Social.Infrastructure.Persistence.Repository
             return entity;
         }
 
+        public async Task<User> GetByUsernameAsync(string? username)
+        {
+            var temp = await _dbContext.Set<User>().Where(u => u.Username == username).ToListAsync();
+            return temp.First();
+        }
+
         public async Task<User> LoginAsync(LoginViewModel loginVm)
         {
             string passwordEncrypt = PasswordEncryptation.ComputeSha256Hash(loginVm.Password);

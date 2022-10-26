@@ -1,4 +1,5 @@
-﻿using Red_Social.Core.Application.Interfaces.Repositories;
+﻿using Red_Social.Core.Application.Dtos.Email;
+using Red_Social.Core.Application.Interfaces.Repositories;
 using Red_Social.Core.Application.Interfaces.Services;
 using Red_Social.Core.Application.ViewModels.User;
 using Red_Social.Core.Domain.Entities;
@@ -11,10 +12,12 @@ namespace Red_Social.Core.Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IEmailService _emailservice;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IEmailService emailservice)
         {
             _userRepository = userRepository;
+            _emailservice = emailservice;   
         }
 
         public async Task<UserViewModel> Login(LoginViewModel vm)
@@ -126,6 +129,30 @@ namespace Red_Social.Core.Application.Services
             vm.Password = user.Password;
             vm.Phone = user.Phone;
             vm.Email = user.Email;
+            return vm;
+
+        }
+
+        public async Task<UserViewModel> Restorepass(ForgotPassViewModel fm)
+        {
+            User user = await _userRepository.GetByUsernameAsync(fm.Username);
+
+            UserViewModel vm = new();
+            vm.Id = user.Id;
+            vm.Name = user.Name;
+            vm.Username = user.Username;
+            vm.Password = user.Password;
+            vm.Phone = user.Phone;
+            vm.Email = user.Email;
+
+            await _emailservice.SendAsync(new EmailRequest
+            {
+                To = user.Email,
+                From = "YONIBER.ENCARNACION@GMAIL.COM",
+                Subject = "Reestablecimiento de contraseña",
+                Body = $"<h1>Su contraseña ha sido reestablecida</h1> <p>Tu usuario es: {user.Username} </p>"
+
+            });
             return vm;
 
         }

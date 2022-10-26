@@ -7,5 +7,7 @@ namespace Red_Social.Core.Application.Interfaces.Services
     {
         Task<UserViewModel> Login(LoginViewModel vm);
         Task<UserViewModel> GetByIdViewModel(int id);
+
+        Task<UserViewModel> Restorepass(ForgotPassViewModel fm);
     }
 }
