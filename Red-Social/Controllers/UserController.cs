@@ -131,10 +131,7 @@ namespace Red_Social.Controllers
                     ModelState.AddModelError("Username", "El usuario no existe.");
                     return View(fm);
                 }
-                else
-                { //ENVIO DE CORREO AL USUARIO CON CLAVE NUEVA
-
-                }
+                
               
             }
             catch

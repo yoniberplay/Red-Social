@@ -1,4 +1,5 @@
 ﻿using Red_Social.Core.Application.Dtos.Email;
+using Red_Social.Core.Application.Helpers;
 using Red_Social.Core.Application.Interfaces.Repositories;
 using Red_Social.Core.Application.Interfaces.Services;
 using Red_Social.Core.Application.ViewModels.User;
@@ -6,6 +7,7 @@ using Red_Social.Core.Domain.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Red_Social.Core.Application.Services
 {
@@ -66,6 +68,16 @@ namespace Red_Social.Core.Application.Services
             user.Email = vm.Email;
             
             user = await _userRepository.AddAsync(user);
+
+            await _emailservice.SendAsync(new EmailRequest
+            {
+                To = user.Email,
+                From = "YONIBER.ENCARNACION@GMAIL.COM",
+                Subject = "Activacion de Usuario",
+                Body = $"<h1>Bienvenido a esta Red Social</h1>" +
+                "<a href='https://github.com/yoniberplay'><button> Activar Cuenta! </button></a> "
+
+            });
 
             SaveUserViewModel userVm = new();
 
@@ -145,12 +157,16 @@ namespace Red_Social.Core.Application.Services
             vm.Phone = user.Phone;
             vm.Email = user.Email;
 
+            String Pass = GeneratePass.Generate(10);
+
+            user.Password = PasswordEncryptation.ComputeSha256Hash(Pass);
+            _userRepository.UpdateAsync(user);
             await _emailservice.SendAsync(new EmailRequest
             {
                 To = user.Email,
                 From = "YONIBER.ENCARNACION@GMAIL.COM",
                 Subject = "Reestablecimiento de contraseña",
-                Body = $"<h1>Su contraseña ha sido reestablecida</h1> <p>Tu usuario es: {user.Username} </p>"
+                Body = $"<h1>Su contraseña ha sido reestablecida</h1> <p>Su nueva contraseña es: {Pass} </p>"
 
             });
             return vm;

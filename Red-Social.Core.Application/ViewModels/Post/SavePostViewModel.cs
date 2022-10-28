@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace Red_Social.Core.Application.ViewModels.Post
 {
@@ -15,6 +16,7 @@ namespace Red_Social.Core.Application.ViewModels.Post
         [DataType(DataType.Text)]
         public String? Text { get; set; }
         public String? ImgUrl { get; set; }
+        public IFormFile? File { get; set; }
 
     }
 }

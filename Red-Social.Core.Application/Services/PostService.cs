@@ -13,19 +13,19 @@ namespace Red_Social.Core.Application.Services
 {
     public class PostService : IPostService
     {
-        private readonly IPostRepository _anuncioRepository;
+        private readonly IPostRepository _ipostRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserViewModel? userViewModel;
 
-        public PostService(IPostRepository anuncioRepository, IHttpContextAccessor httpContextAccessor)
+        public PostService(IPostRepository ipostRepository, IHttpContextAccessor httpContextAccessor)
         {
-            _anuncioRepository = anuncioRepository;
+            _ipostRepository = ipostRepository;
             _httpContextAccessor = httpContextAccessor;
             userViewModel = _httpContextAccessor.HttpContext.Session.Get<UserViewModel>("user");
         }
 
 
-        Task<PostViewModel> IPostService.GetAnuncioyDetalles(int id)
+        Task<PostViewModel> GetPostsandDetails(int id)
         {
             throw new NotImplementedException();
         }
@@ -35,32 +35,41 @@ namespace Red_Social.Core.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<SavePostViewModel> Add(SavePostViewModel vm)
+        public async Task<SavePostViewModel> Add(SavePostViewModel spvm)
+        {
+            Post post = new();
+            post.UserId = userViewModel.Id;
+            post.ImgUrl = spvm.ImgUrl;
+            post.Text = spvm.Text;
+
+
+            post = await _ipostRepository.AddAsync(post);
+
+            SavePostViewModel poVm = new();
+
+            poVm.UserId = post.UserId;
+            poVm.ImgUrl = post.ImgUrl;
+            poVm.Text = post.Text;
+
+            return poVm;
+        }
+
+        Task<PostViewModel> IPostService.GetPostsandDetails(int id)
         {
             throw new NotImplementedException();
         }
 
-        Task<SavePostViewModel> IGenericService<SavePostViewModel, PostViewModel>.GetByIdSaveViewModel(int id)
+        public Task Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        Task<List<PostViewModel>> IGenericService<SavePostViewModel, PostViewModel>.GetAllViewModel()
+        public Task<SavePostViewModel> GetByIdSaveViewModel(int id)
         {
             throw new NotImplementedException();
         }
 
-        Task IGenericService<SavePostViewModel, PostViewModel>.Update(SavePostViewModel vm)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<SavePostViewModel> IGenericService<SavePostViewModel, PostViewModel>.Add(SavePostViewModel vm)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task IGenericService<SavePostViewModel, PostViewModel>.Delete(int id)
+        public Task<List<PostViewModel>> GetAllViewModel()
         {
             throw new NotImplementedException();
         }

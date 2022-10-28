@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Red_Social.Middlewares
+namespace Red_Social.Core.Application.Helpers
 {
     public static class AdmFiles
     {
