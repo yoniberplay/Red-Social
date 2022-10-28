@@ -53,6 +53,19 @@ namespace Red_Social.Core.Application.Services
 
             return poVm;
         }
+        public async Task<List<PostViewModel>> GetAllMyPost()
+        {
+            var mypostlist = await _ipostRepository.GetAllAsync();
+
+            //var lista = mypostlist.Where(p => p.UserId == userViewModel.Id).ToList();
+            //TRABAJO PENDIENTE AQUI    
+            return mypostlist.Where(p => p.UserId == userViewModel.Id).Select(p => new PostViewModel
+            {
+                Text = p.Text,
+                ImgUrl = p.ImgUrl,
+                UserId = p.UserId
+            }).ToList();
+        }
 
         Task<PostViewModel> IPostService.GetPostsandDetails(int id)
         {
@@ -73,5 +86,7 @@ namespace Red_Social.Core.Application.Services
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

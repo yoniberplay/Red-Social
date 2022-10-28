@@ -22,6 +22,7 @@ namespace Red_Social.Infrastructure.Persistence.Repository
         {
             return await _dbContext.Set<Post>()
                 .Include(a => a.User)
+                .Include(c => c.Comments)
                 .ToListAsync(); //Deferred execution
         }
 

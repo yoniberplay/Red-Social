@@ -10,6 +10,6 @@ namespace Red_Social.Core.Application.Interfaces.Services
     public interface IPostService : IGenericService<SavePostViewModel, PostViewModel>
     {
         Task<PostViewModel> GetPostsandDetails(int id);
-
+        Task<List<PostViewModel>> GetAllMyPost();
     }
 }

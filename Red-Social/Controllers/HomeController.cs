@@ -28,7 +28,7 @@ namespace Red_Social.Controllers
             userViewModel = _ihttpContextAccessor.HttpContext.Session.Get<UserViewModel>("user");
         }
 
-        public  IActionResult Index()
+        public  async Task<IActionResult> Index()
         {
             
             if (!_validateUserSession.HasUser())
@@ -36,6 +36,7 @@ namespace Red_Social.Controllers
                 return RedirectToRoute(new { controller = "User", action = "Index" });
             }
             ViewBag.user = userViewModel;
+            ViewBag.UserPost = await _postService.GetAllMyPost();
 
             return View();
         }

@@ -23,15 +23,29 @@
                          <div class="text-center">
                         <button type="submit" class="btn btn-primary">Publicar</button>
                         </div>
-
                     </form>
                     </div>
-                        
-                        <div class="text-center ">
-                            @*PUBLICACIONES DEL USUARIO*@
-`
-                        </div>
-
-
 </div>
 
+                             <div class="container">
+                        
+                            
+                            @foreach (PostViewModel item in ViewBag.UserPost){
+                                <div class=" d-flex justify-content-center">
+
+                           <div class="card w-50 mb-3">
+
+                                <div class="card-body">
+                                    <h5 class="card-title" >@item.UserId</h5>
+                                    <div >
+                                    <p class="card-text">@item.Text</p>
+                                    </div>
+                                </div>
+                                <img class="bd-placeholder-img " src="@item.ImgUrl"/>
+
+                            </div>
+
+                        </div>
+                        }
+
+                         </div>
