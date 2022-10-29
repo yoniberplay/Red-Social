@@ -42,10 +42,10 @@ namespace Red_Social.Core.Application.Mappings
                 .ForMember(dest => dest.LastModified, opt => opt.Ignore())
                 .ForMember(dest => dest.LastModifiedBy, opt => opt.Ignore());
 
-            CreateMap<Post, SaveUserViewModel>()
+            CreateMap<Post, SavePostViewModel>()
                 .ForMember(dest => dest.File, opt => opt.Ignore())
-                .ForMember(dest => dest.ConfirmPassword, opt => opt.Ignore())
                .ReverseMap()
+               .ForMember(dest => dest.Created, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
                .ForMember(dest => dest.LastModified, opt => opt.Ignore())
                .ForMember(dest => dest.LastModifiedBy, opt => opt.Ignore());

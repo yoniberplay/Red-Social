@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Red_Social.Infrastucture.Persistence.Repositories;
 
 namespace Red_Social.Infrastructure.Persistence
 {
@@ -35,6 +36,7 @@ namespace Red_Social.Infrastructure.Persistence
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
             #endregion
         }
     }
