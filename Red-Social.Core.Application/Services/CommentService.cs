@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Red_Social.Core.Application.Helpers;
 using Red_Social.Core.Application.Interfaces.Repositories;
 using Red_Social.Core.Application.Interfaces.Services;
@@ -11,41 +12,36 @@ using System.Threading.Tasks;
 
 namespace Red_Social.Core.Application.Services
 {
-    public class CommentService : ICommentService
+    public class CommentService : GenericService<SaveCommentViewModel, CommentsViewModel, Comments>,  ICommentService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserViewModel? userViewModel;
+        private readonly IMapper _mapper;
+        private readonly ICommentRepository _commentRepository;
 
-        public CommentService(IHttpContextAccessor httpContextAccessor)
+        public CommentService(IHttpContextAccessor httpContextAccessor, IMapper mapper, ICommentRepository commentRepository) : base(commentRepository, mapper)
         {
             _httpContextAccessor = httpContextAccessor;
             userViewModel = _httpContextAccessor.HttpContext.Session.Get<UserViewModel>("user");
+            _mapper = mapper;
+            _commentRepository = commentRepository;
         }
 
-        public Task<SaveCommentViewModel> Add(SaveCommentViewModel vm)
+        public override async Task<SaveCommentViewModel> Add(SaveCommentViewModel vm)
         {
-            throw new NotImplementedException();
+            vm.UserId = userViewModel.Id;
+
+            return await base.Add(vm);
         }
 
-        public Task Delete(int id)
+        public override async Task Update(SaveCommentViewModel vm, int id)
         {
-            throw new NotImplementedException();
+            vm.UserId = userViewModel.Id;
+
+            await base.Update(vm,id);
         }
 
-        public Task<List<CommentsViewModel>> GetAllViewModel()
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<SaveCommentViewModel> GetByIdSaveViewModel(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Update(SaveCommentViewModel vm)
-        {
-            throw new NotImplementedException();
-        }
     }
        
     }

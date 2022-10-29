@@ -16,7 +16,6 @@ namespace Red_Social.Core.Domain.Entities
 
         public ICollection<Comments>? Comments { get; set; }
 
-
         public User? User { get; set; }
     }
 }

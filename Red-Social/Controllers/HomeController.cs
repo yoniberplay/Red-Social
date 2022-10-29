@@ -47,14 +47,18 @@ namespace Red_Social.Controllers
         {
             if (!ModelState.IsValid)
             {
-                //return Index(spvm);
                 return RedirectToRoute(new { controller = "Home", action = "dIndex" });
             }
             if (!_validateUserSession.HasUser())
             {
                 return RedirectToRoute(new { controller = "Home", action = "Index" });
             }
-            spvm.ImgUrl = AdmFiles.UploadFile(spvm.File, userViewModel.Id, "Posts");
+            if (spvm.File != null )
+            {
+                spvm.ImgUrl = AdmFiles.UploadFile(spvm.File, userViewModel.Id, "Posts");
+            }
+
+           
 
             await _postService.Add(spvm);
 

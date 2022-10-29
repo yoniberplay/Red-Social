@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Red_Social.Core.Application.Interfaces.Services
 {
-    public interface IGenericService<SaveViewModel, ViewModel>
+    public interface IGenericService<SaveViewModel, ViewModel,Entity>
            where SaveViewModel : class
            where ViewModel : class
+           where Entity : class
     {
-        Task Update(SaveViewModel vm);
+        Task Update(SaveViewModel vm,int id);
 
         Task<SaveViewModel> Add(SaveViewModel vm);
 

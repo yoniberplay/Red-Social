@@ -1,4 +1,5 @@
-﻿using Red_Social.Core.Application.Dtos.Email;
+﻿using AutoMapper;
+using Red_Social.Core.Application.Dtos.Email;
 using Red_Social.Core.Application.Helpers;
 using Red_Social.Core.Application.Interfaces.Repositories;
 using Red_Social.Core.Application.Interfaces.Services;
@@ -11,15 +12,17 @@ using System.Web;
 
 namespace Red_Social.Core.Application.Services
 {
-    public class UserService : IUserService
+    public class UserService : GenericService<SaveUserViewModel,UserViewModel,User>,IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly IEmailService _emailservice;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IEmailService emailservice)
+        public UserService(IUserRepository userRepository, IEmailService emailservice ,IMapper mapper):base(userRepository, mapper)
         {
             _userRepository = userRepository;
-            _emailservice = emailservice;   
+            _emailservice = emailservice;
+            _mapper =  mapper;
         }
 
         public async Task<UserViewModel> Login(LoginViewModel vm)
@@ -31,117 +34,14 @@ namespace Red_Social.Core.Application.Services
             {
                 return null;
             }
-
-            userVm.Id = user.Id;
-            userVm.Name = user.Name;
-            userVm.Username = user.Username;
-            userVm.Phone = user.Phone;
-            userVm.Password = user.Password;
-            userVm.Email = user.Email;
-
-            return userVm;
-        }
-
-        public async Task Update(SaveUserViewModel vm)
-        {
-            User user = await _userRepository.GetByIdAsync(vm.Id);
-            user.Id = vm.Id;
-            user.Name = vm.Name;
-            user.LastName = vm.LastName;
-            user.Username = vm.Username;
-            user.Password = vm.Password;
-            user.Photo = vm.Photo;
-            user.Phone = vm.Phone;
-            user.Email = vm.Email;
-
-            await _userRepository.UpdateAsync(user);
-        }
-
-        public async Task<SaveUserViewModel> Add(SaveUserViewModel vm)
-        {
-            User user = new();
-            user.Name = vm.Name;
-            user.Username = vm.Username;
-            user.LastName = vm.LastName;
-            user.Password = vm.Password;
-            user.Phone = vm.Phone;
-            user.Email = vm.Email;
-            
-            user = await _userRepository.AddAsync(user);
-
-            await _emailservice.SendAsync(new EmailRequest
-            {
-                To = user.Email,
-                From = "YONIBER.ENCARNACION@GMAIL.COM",
-                Subject = "Activacion de Usuario",
-                Body = $"<h1>Bienvenido a esta Red Social</h1>" +
-                "<a href='https://github.com/yoniberplay'><button> Activar Cuenta! </button></a> "
-
-            });
-
-            SaveUserViewModel userVm = new();
-
-            userVm.Id = user.Id;
-            userVm.Name = user.Name;
-            userVm.LastName = user.LastName;
-            userVm.Phone = user.Phone;
-            userVm.Email = user.Email;
-            userVm.Username = user.Username;
-            userVm.Password = user.Password;
-
-            return userVm;
-        }
-
-        public async Task Delete(int id)
-        {
-            var product = await _userRepository.GetByIdAsync(id);
-            await _userRepository.DeleteAsync(product);
-        }
-
-        public async Task<SaveUserViewModel> GetByIdSaveViewModel(int id)
-        {
-            var user = await _userRepository.GetByIdAsync(id);
-
-            SaveUserViewModel vm = new();
-            vm.Id = user.Id;
-            vm.Name = user.Name;
-            vm.Username = user.Username;
-            vm.Password = user.Password;
-            vm.Phone = user.Phone;
-            vm.Email = user.Email;
-            return vm;
-
-        }
-
-
-
-        public async Task<List<UserViewModel>> GetAllViewModel()
-        {
-            var userList = await _userRepository.GetAllWithIncludeAsync(new List<string> { "Products" });
-
-            return userList.Select(user => new UserViewModel
-            {
-                Name = user.Name,
-                Username = user.Username,
-                Id= user.Id,
-                Email = user.Email,
-                Password = user.Password,
-                Phone = user.Phone
-            }).ToList();
+            return _mapper.Map<UserViewModel>(user);
         }
 
         public async Task<UserViewModel> GetByIdViewModel(int id)
         {
             var user = await _userRepository.GetByIdAsync(id);
 
-            UserViewModel vm = new();
-            vm.Id = user.Id;
-            vm.Name = user.Name;
-            vm.Username = user.Username;
-            vm.Password = user.Password;
-            vm.Phone = user.Phone;
-            vm.Email = user.Email;
-            return vm;
+            return _mapper.Map<UserViewModel>(user); 
 
         }
 
@@ -149,18 +49,11 @@ namespace Red_Social.Core.Application.Services
         {
             User user = await _userRepository.GetByUsernameAsync(fm.Username);
 
-            UserViewModel vm = new();
-            vm.Id = user.Id;
-            vm.Name = user.Name;
-            vm.Username = user.Username;
-            vm.Password = user.Password;
-            vm.Phone = user.Phone;
-            vm.Email = user.Email;
-
+            UserViewModel vm = _mapper.Map<UserViewModel>(user);
             String Pass = GeneratePass.Generate(10);
 
             user.Password = PasswordEncryptation.ComputeSha256Hash(Pass);
-            _userRepository.UpdateAsync(user);
+            _userRepository.UpdateAsync(user,user.Id);
             await _emailservice.SendAsync(new EmailRequest
             {
                 To = user.Email,
@@ -171,6 +64,22 @@ namespace Red_Social.Core.Application.Services
             });
             return vm;
 
+        }
+        public override async Task<SaveUserViewModel> Add(SaveUserViewModel vm)
+        {
+            SaveUserViewModel suvm = await base.Add(vm);
+            
+            await _emailservice.SendAsync(new EmailRequest
+            {
+                To = suvm.Email,
+                From = "YONIBER.ENCARNACION@GMAIL.COM",
+                Subject = "Activacion de Usuario",
+                Body = $"<h1>Bienvenido {suvm.Username} a esta Red Social</h1>" +
+                "<a href='https://github.com/yoniberplay'><button> Activar Cuenta! </button> </a> "
+
+            });
+
+            return suvm;
         }
     }
 }

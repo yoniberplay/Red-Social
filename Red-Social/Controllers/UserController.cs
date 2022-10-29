@@ -86,7 +86,7 @@ namespace Red_Social.Controllers
                 if (SU.Id != 0 && SU != null)
                 {
                     SU.Photo = AdmFiles.UploadFile(vm.File, SU.Id,"Users");
-                    await _userService.Update(SU);
+                    await _userService.Update(SU,SU.Id);
 
                 }
                 }

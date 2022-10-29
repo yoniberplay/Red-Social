@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Red_Social.Infrastructure.Persistence.Repository
 {
-    //Generics
     public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity : class
     {
         private readonly ApplicationContext _dbContext;
@@ -23,9 +22,10 @@ namespace Red_Social.Infrastructure.Persistence.Repository
             return entity;
         }
 
-        public virtual async Task UpdateAsync(Entity entity)
+        public virtual async Task UpdateAsync(Entity entity,int id)
         {
-            _dbContext.Entry(entity).State = EntityState.Modified;
+            Entity entry = await _dbContext.Set<Entity>().FindAsync(id);
+            _dbContext.Entry(entry).CurrentValues.SetValues(entity);
             await _dbContext.SaveChangesAsync();
         }
 

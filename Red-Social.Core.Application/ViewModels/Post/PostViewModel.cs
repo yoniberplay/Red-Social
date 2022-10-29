@@ -14,8 +14,9 @@ namespace Red_Social.Core.Application.ViewModels.Post
         public String? Text { get; set; }
         public String? ImgUrl { get; set; }
 
-        public ICollection<CommentsViewModel>? Comments { get; set; }
+        public DateTime? Created { get; set; }
 
+        public ICollection<CommentsViewModel>? Comments { get; set; }
 
         public UserViewModel? User { get; set; }
     }
