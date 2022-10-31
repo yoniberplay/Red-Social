@@ -18,5 +18,8 @@ namespace Red_Social.Core.Application.ViewModels.Post
         public String? ImgUrl { get; set; }
         public IFormFile? File { get; set; }
 
+        public String? NuevoComentario { get; set; }
+        public int Idpost { get; set; }
+
     }
 }

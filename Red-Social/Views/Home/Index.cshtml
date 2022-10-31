@@ -1,7 +1,10 @@
-﻿@using Red_Social.Core.Application.ViewModels.Post;
+﻿@using Red_Social.Core.Application.ViewModels.Comments
+@using Red_Social.Core.Application.ViewModels.Post;
 @model SavePostViewModel
 @{
     ViewData["Title"] = "Inicio";
+    List<PostViewModel> postViews = ViewBag.UserPost;
+    
 }
 
 <div class="text-center row ">
@@ -30,7 +33,7 @@
                              <div class="container">
                         
                             
-                            @foreach (PostViewModel item in ViewBag.UserPost){
+                            @foreach (PostViewModel item in postViews){
                                 <div class=" d-flex justify-content-center">
 
                            <div class="card w-50 mb-3">
@@ -42,7 +45,22 @@
                                     </div>
                                 </div>
                                 <img class="bd-placeholder-img " src="@item.ImgUrl"/>
+                                @if (@item.Comments != null)
+                {
+                    @foreach (CommentsViewModel j in @item.Comments)
+                    {
+                        <p class="card-text"> @j.Text  </p>
+                    }
+                }
+                 <form method="post" asp-controller="Home" asp-action="AddComment">
+                               
+                      <div class="w-50">
+                          <input asp-for="Idpost" value="@item.Id" hidden/>
+                            <input asp-for="NuevoComentario" class="form-control" required placeholder="Agregar un comentario..."/>
+                             <button type="submit" class="btn btn-primary btn-sm">Comentar</button>
+                             </div>
 
+                      </form>
                             </div>
 
                         </div>

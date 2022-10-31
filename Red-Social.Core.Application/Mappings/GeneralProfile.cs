@@ -44,6 +44,8 @@ namespace Red_Social.Core.Application.Mappings
 
             CreateMap<Post, SavePostViewModel>()
                 .ForMember(dest => dest.File, opt => opt.Ignore())
+                .ForMember(dest => dest.NuevoComentario, opt => opt.Ignore())
+                .ForMember(dest => dest.Idpost, opt => opt.Ignore())
                .ReverseMap()
                .ForMember(dest => dest.Created, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())

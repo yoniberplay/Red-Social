@@ -48,15 +48,20 @@ namespace Red_Social.Core.Application.Services
         public async Task<List<PostViewModel>> GetAllMyPost()
         {
             var mypostlist = await _ipostRepository.GetAllAsync();
+            mypostlist = mypostlist.Where(p => p.UserId == userViewModel.Id).ToList();
 
             //var lista = mypostlist.Where(p => p.UserId == userViewModel.Id).ToList();
             //TRABAJO PENDIENTE AQUI    
-            return mypostlist.Where(p => p.UserId == userViewModel.Id).Select(p => new PostViewModel
-            {
-                Text = p.Text,
-                ImgUrl = p.ImgUrl,
-                UserId = p.UserId, 
-            }).ToList();
+            //return mypostlist.Where(p => p.UserId == userViewModel.Id).Select(p => new PostViewModel
+            //{
+            //    Text = p.Text,
+            //    ImgUrl = p.ImgUrl,
+            //    UserId = p.UserId,
+            //    Id = p.Id,
+            //    Comments = p.Comments
+            //}).ToList();
+
+            return _mapper.Map<List<PostViewModel>>(mypostlist);
         }
 
         Task<PostViewModel> IPostService.GetPostsandDetails(int id)

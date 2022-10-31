@@ -6,6 +6,7 @@ using Red_Social.Core.Application.ViewModels.Post;
 using Red_Social.Core.Application.ViewModels.User;
 using Red_Social.Core.Application.Interfaces.Services;
 using Red_Social.Core.Application.Helpers;
+using Red_Social.Core.Application.ViewModels.Comments;
 
 namespace Red_Social.Controllers
 {
@@ -15,16 +16,18 @@ namespace Red_Social.Controllers
         private readonly ValidateUserSession _validateUserSession;
         private readonly IUserService _userService;
         private readonly IPostService _postService;
+        private readonly ICommentService _commentService;
         private readonly IHttpContextAccessor _ihttpContextAccessor;
         private readonly UserViewModel? userViewModel;
 
-        public HomeController(ILogger<HomeController> logger, ValidateUserSession validateUserSession, IUserService userService, IHttpContextAccessor ihttpContextAccessor, IPostService postService)
+        public HomeController(ILogger<HomeController> logger, ValidateUserSession validateUserSession, ICommentService commentService ,IUserService userService, IHttpContextAccessor ihttpContextAccessor, IPostService postService)
         {
             _validateUserSession = validateUserSession;
             _userService = userService;
             _logger = logger;
             _ihttpContextAccessor = ihttpContextAccessor;
             _postService = postService;
+            _commentService = commentService;
             userViewModel = _ihttpContextAccessor.HttpContext.Session.Get<UserViewModel>("user");
         }
 
@@ -35,6 +38,7 @@ namespace Red_Social.Controllers
             {
                 return RedirectToRoute(new { controller = "User", action = "Index" });
             }
+
             ViewBag.user = userViewModel;
             ViewBag.UserPost = await _postService.GetAllMyPost();
 
@@ -47,7 +51,7 @@ namespace Red_Social.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToRoute(new { controller = "Home", action = "dIndex" });
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
             }
             if (!_validateUserSession.HasUser())
             {
@@ -58,9 +62,37 @@ namespace Red_Social.Controllers
                 spvm.ImgUrl = AdmFiles.UploadFile(spvm.File, userViewModel.Id, "Posts");
             }
 
-           
+            
 
             await _postService.Add(spvm);
+
+            return RedirectToRoute(new { controller = "Home", action = "Index" });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(SavePostViewModel spvm)
+        {
+           
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
+            }
+
+            if (spvm.NuevoComentario == null)
+            {
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
+            }
+
+           SaveCommentViewModel savecomment = new();
+            savecomment.Text = spvm.NuevoComentario;
+            savecomment.PostId = spvm.Idpost;
+            savecomment.UserId = userViewModel.Id;
+
+
+            await _commentService.Add(savecomment);
+
+
+
 
             return RedirectToRoute(new { controller = "Home", action = "Index" });
         }
