@@ -26,6 +26,7 @@ namespace Red_Social.Core.Application.Services
             userViewModel = _httpContextAccessor.HttpContext.Session.Get<UserViewModel>("user");
             _mapper = mapper;
         }
+
         public override async Task<SavePostViewModel> Add(SavePostViewModel vm)
         {
             vm.UserId = userViewModel.Id;
@@ -48,18 +49,8 @@ namespace Red_Social.Core.Application.Services
         public async Task<List<PostViewModel>> GetAllMyPost()
         {
             var mypostlist = await _ipostRepository.GetAllAsync();
-            mypostlist = mypostlist.Where(p => p.UserId == userViewModel.Id).ToList();
 
-            //var lista = mypostlist.Where(p => p.UserId == userViewModel.Id).ToList();
-            //TRABAJO PENDIENTE AQUI    
-            //return mypostlist.Where(p => p.UserId == userViewModel.Id).Select(p => new PostViewModel
-            //{
-            //    Text = p.Text,
-            //    ImgUrl = p.ImgUrl,
-            //    UserId = p.UserId,
-            //    Id = p.Id,
-            //    Comments = p.Comments
-            //}).ToList();
+            mypostlist = mypostlist.Where(p => p.UserId == userViewModel.Id).OrderByDescending(p => p.Created).ToList(); 
 
             return _mapper.Map<List<PostViewModel>>(mypostlist);
         }
@@ -69,5 +60,13 @@ namespace Red_Social.Core.Application.Services
             throw new NotImplementedException();
         }
 
+        public async Task<List<PostViewModel>> GetAllMyFriendPost()
+        {
+            var mypostlist = await _ipostRepository.GetAllAsync();
+
+            mypostlist = mypostlist.Where(p => p.UserId != userViewModel.Id).OrderByDescending(p => p.Created).ToList();
+            
+            return _mapper.Map<List<PostViewModel>>(mypostlist);
+        }
     }
 }

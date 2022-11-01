@@ -49,7 +49,7 @@
                 {
                     @foreach (CommentsViewModel j in @item.Comments)
                     {
-                        <p class="card-text"> @j.Text  </p>
+                        <p class="card-text"> @j.Text </p>
                     }
                 }
                  <form method="post" asp-controller="Home" asp-action="AddComment">

@@ -23,6 +23,8 @@ namespace Red_Social.Core.Application.ViewModels.User
  
         public string Phone { get; set; }
 
+        public string Photo { get; set; }
+
         public ICollection<PostViewModel> Post { get; set; }
         public ICollection<FriendshipViewModel>? Friendship { get; set; }
     }
