@@ -10,5 +10,6 @@ namespace Red_Social.Core.Application.Interfaces.Repositories
     public interface IFriendshipRepository : IGenericRepository<Friendship>
     {
         Task<List<Friendship>> GetBywithRelationship(int userid);
+
     }
 }

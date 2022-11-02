@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Red_Social.Core.Application.Interfaces.Services
 {
-    public interface IFriendship : IGenericService<SaveFriendViewModel, FriendshipViewModel,Friendship>
+    public interface IFriendshipService : IGenericService<SaveFriendViewModel, FriendshipViewModel,Friendship>
     {
-       
-        
-        
+
+        Task<List<FriendshipViewModel>> GetAllFriends();
+
     }
 }

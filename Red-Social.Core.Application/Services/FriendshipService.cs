@@ -14,7 +14,7 @@ using Red_Social.Core.Application.Helpers;
 
 namespace Red_Social.Core.Application.Services
 {
-    public class FriendshipService : GenericService<SaveFriendViewModel, FriendshipViewModel, Friendship>, IFriendship
+    public class FriendshipService : GenericService<SaveFriendViewModel, FriendshipViewModel, Friendship>, IFriendshipService
     {
         private readonly IFriendshipRepository _ifriendRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -29,6 +29,12 @@ namespace Red_Social.Core.Application.Services
             _mapper = mapper;
         }
 
-        
+        public async Task<List<FriendshipViewModel>> GetAllFriends()
+        {
+            var userList = await _ifriendRepository.GetAllAsync();
+            userList = userList.Where(f => f.IdUser == userViewModel.Id).OrderByDescending(p => p.Created).ToList();
+
+            return _mapper.Map<List<FriendshipViewModel>>(userList);
+        }
     }
 }

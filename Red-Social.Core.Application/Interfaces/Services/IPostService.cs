@@ -13,7 +13,8 @@ namespace Red_Social.Core.Application.Interfaces.Services
         Task<PostViewModel> GetPostsandDetails(int id);
         Task<List<PostViewModel>> GetAllMyPost();
 
-        Task<List<PostViewModel>> GetAllMyFriendPost();
+        Task<List<PostViewModel>> GetAllMyFriendPost(int friendid);
+
         
     }
 }

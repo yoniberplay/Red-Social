@@ -16,13 +16,14 @@ namespace Red_Social.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ValidateUserSession _validateUserSession;
         private readonly IUserService _userService;
-        private readonly IFriendship _friendservice;
+        private readonly IFriendshipService _friendservice;
         private readonly ICommentService _commentService;
         private readonly IHttpContextAccessor _ihttpContextAccessor;
         private readonly UserViewModel? userViewModel;
+        private readonly IPostService _postService;
 
 
-        public AmigosController(ILogger<HomeController> logger, ValidateUserSession validateUserSession, ICommentService commentService, IUserService userService, IHttpContextAccessor ihttpContextAccessor, IFriendship friendservice)
+        public AmigosController(ILogger<HomeController> logger, IPostService postService, ValidateUserSession validateUserSession, ICommentService commentService, IUserService userService, IHttpContextAccessor ihttpContextAccessor, IFriendshipService friendservice)
         {
             _validateUserSession = validateUserSession;
             _userService = userService;
@@ -30,6 +31,7 @@ namespace Red_Social.Controllers
             _ihttpContextAccessor = ihttpContextAccessor;
             _friendservice = friendservice;
             _commentService = commentService;
+            _postService = postService;
             userViewModel = _ihttpContextAccessor.HttpContext.Session.Get<UserViewModel>("user");
         }
 
@@ -42,8 +44,20 @@ namespace Red_Social.Controllers
             }
 
             ViewBag.user = userViewModel;
-            ViewBag.friendpost = await _friendservice.GetAllViewModel();
+            //List<PostViewModel> postViews = new();
+            var tempfriend = await _friendservice.GetAllFriends();
 
+            var postViews = await _postService.GetAllMyFriendPost(tempfriend.First().IdFriend);
+            
+
+
+            for (int i = 1; i < tempfriend.Count(); i++)
+            {
+                var temp = await _postService.GetAllMyFriendPost(tempfriend[i].IdFriend);
+                postViews.AddRange(temp.ToList());
+            }
+
+            ViewBag.friendpost = postViews;
             return View();
         }
 

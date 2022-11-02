@@ -37,6 +37,7 @@ namespace Red_Social.Infrastructure.Persistence
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ICommentRepository, CommentRepository>();
+            services.AddTransient<IFriendshipRepository, FriendshipRepository>();
             #endregion
         }
     }

@@ -41,10 +41,6 @@ namespace Red_Social.Core.Application.Services
             await base.Update(vm, id);
         }
 
-        Task<PostViewModel> GetPostsandDetails(int id)
-        {
-            throw new NotImplementedException();
-        }
        
         public async Task<List<PostViewModel>> GetAllMyPost()
         {
@@ -68,5 +64,15 @@ namespace Red_Social.Core.Application.Services
             
             return _mapper.Map<List<PostViewModel>>(mypostlist);
         }
+
+        public async Task<List<PostViewModel>> GetAllMyFriendPost(int friendid)
+        {
+            var mypostlist = await _ipostRepository.GetAllAsync();
+
+            mypostlist = mypostlist.Where(p => p.UserId == friendid).OrderByDescending(p => p.Created).ToList();
+
+            return _mapper.Map<List<PostViewModel>>(mypostlist);
+        }
+
     }
 }

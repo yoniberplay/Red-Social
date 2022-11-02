@@ -2,6 +2,7 @@
 using Red_Social.Core.Application.ViewModels.Comments;
 using Red_Social.Core.Application.ViewModels.Post;
 using Red_Social.Core.Application.ViewModels.User;
+using Red_Social.Core.Application.ViewModels.Friendship;
 using Red_Social.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,23 @@ namespace Red_Social.Core.Application.Mappings
                .ReverseMap()
                .ForMember(dest => dest.User, opt => opt.Ignore())
                .ForMember(dest => dest.Post, opt => opt.Ignore())
+               .ForMember(dest => dest.Created, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
+               .ForMember(dest => dest.LastModified, opt => opt.Ignore())
+               .ForMember(dest => dest.LastModifiedBy, opt => opt.Ignore());
+            #endregion
+
+            #region mapeo de Amistad
+            CreateMap<Friendship, FriendshipViewModel>()
+                .ReverseMap()
+                .ForMember(dest => dest.Created, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.LastModified, opt => opt.Ignore())
+                .ForMember(dest => dest.LastModifiedBy, opt => opt.Ignore());
+
+            CreateMap<Friendship, SaveFriendViewModel>()
+                
+               .ReverseMap()
                .ForMember(dest => dest.Created, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
                .ForMember(dest => dest.LastModified, opt => opt.Ignore())
