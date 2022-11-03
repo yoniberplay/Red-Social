@@ -1,13 +1,16 @@
 ﻿@using Red_Social.Core.Application.ViewModels.Friendship;
 
 @model SaveFriendViewModel
+@{
+    String msj = ViewBag.msj;
+}
 <div class="container-fluid">
 
     <div class="row">
         <div class="col-6 offset-3">
             <div class="card">
                 <div class="card-header bg-primary text-light">
-                    <h4 style="text-align: center;">Registro de nuevo usuario</h4>
+                    <h4 style="text-align: center;">Agregar nuevo amigo</h4>
                 </div>
                 <div class="card-body">
 
@@ -15,6 +18,9 @@
                     <form method="post" asp-controller="Amigos" asp-action="agregar">
 
                         <div class="mb-3">
+                            @if(msj == null){
+                                <label class="form-label text-warning"> @msj </label>
+                            }
                             <label asp-for="amigo" class="form-label">Nombre: </label>
                             <input asp-for="amigo" class="form-control" required />
                             <span asp-validation-for="amigo" class="text-danger"></span>

@@ -36,7 +36,7 @@ namespace Red_Social.Controllers
             
             if (!_validateUserSession.HasUser())
             {
-                return RedirectToRoute(new { controller = "User", action = "Index" });
+                return RedirectToRoute(new { controller = "User", action = "nopermiso" });
             }
 
             ViewBag.user = userViewModel;
@@ -55,7 +55,7 @@ namespace Red_Social.Controllers
             }
             if (!_validateUserSession.HasUser())
             {
-                return RedirectToRoute(new { controller = "Home", action = "Index" });
+                return RedirectToRoute(new { controller = "Home", action = "nopermiso" });
             }
             if (spvm.File != null )
             {
@@ -75,7 +75,7 @@ namespace Red_Social.Controllers
            
             if (!_validateUserSession.HasUser())
             {
-                return RedirectToRoute(new { controller = "Home", action = "Index" });
+                return RedirectToRoute(new { controller = "Home", action = "nopermiso" });
             }
 
             if (spvm.NuevoComentario == null)
@@ -101,6 +101,12 @@ namespace Red_Social.Controllers
         {
             return View();
         }
+
+        public IActionResult nopermiso()
+        {
+            return View();
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

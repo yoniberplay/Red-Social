@@ -145,5 +145,9 @@ namespace Red_Social.Controllers
             return RedirectToRoute(new { controller = "User", action = "Index" });
 
         }
+        public IActionResult nopermiso()
+        {
+            return View();
+        }
     }
 }

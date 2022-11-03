@@ -40,37 +40,50 @@ namespace Red_Social.Controllers
 
             if (!_validateUserSession.HasUser())
             {
-                return RedirectToRoute(new { controller = "User", action = "Index" });
+                return RedirectToRoute(new { controller = "User", action = "nopermiso" });
             }
 
             ViewBag.user = userViewModel;
-            //List<PostViewModel> postViews = new();
+            
             var tempfriend = await _friendservice.GetAllFriends();
 
-            var postViews = await _postService.GetAllMyFriendPost(tempfriend.First().IdFriend);
-            
-
-
-            for (int i = 1; i < tempfriend.Count(); i++)
+            if (tempfriend.Count() > 0)
             {
-                var temp = await _postService.GetAllMyFriendPost(tempfriend[i].IdFriend);
-                postViews.AddRange(temp.ToList());
-            }
 
-            ViewBag.friendpost = postViews;
+                var postViews = await _postService.GetAllMyFriendPost(tempfriend.First().IdFriend);
+
+            
+                for (int i = 1; i < tempfriend.Count(); i++)
+                {
+                    var temp = await _postService.GetAllMyFriendPost(tempfriend[i].IdFriend);
+                    postViews.AddRange(temp.ToList());
+                }
+                HashSet<string> nombres = new HashSet<string>();
+
+                foreach (var i in postViews)
+                {
+                    nombres.Add(i.User.Name);
+
+                }
+
+                ViewBag.amigos = nombres.ToList();
+                ViewBag.friendpost = postViews;
+            }
             return View();
         }
 
-        public async Task<IActionResult> agregar()
+        public async Task<IActionResult> agregaramigo()
         {
 
             if (!_validateUserSession.HasUser())
             {
-                return RedirectToRoute(new { controller = "User", action = "Index" });
+                return RedirectToRoute(new { controller = "User", action = "nopermiso" });
             }
 
             return View();
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> agregar(SaveFriendViewModel sfvm)
@@ -78,16 +91,35 @@ namespace Red_Social.Controllers
 
             if (!_validateUserSession.HasUser())
             {
-                return RedirectToRoute(new { controller = "User", action = "Index" });
+                return RedirectToRoute(new { controller = "User", action = "nopermiso" });
             }
             if (!ModelState.IsValid)
             {
                 return RedirectToRoute(new { controller = "User", action = "agregar" });
+
+            }
+            UserViewModel existe  = await _userService.GetByusernameViewModel(sfvm.amigo);
+
+            if (existe == null)
+            {
+                return View("agregaramigo", null);
             }
 
+            sfvm.IdFriend = existe.Id;
+            sfvm.IdUser = userViewModel.Id;
+            await _friendservice.Add(sfvm);
 
-            return View();
+            int temp = sfvm.IdFriend;
+            sfvm.IdFriend = sfvm.IdUser;
+            sfvm.IdUser = temp;
+            await _friendservice.Add(sfvm);
+
+
+            return View("Index", null);
+
         }
+
+
 
 
     }

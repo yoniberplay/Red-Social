@@ -81,5 +81,13 @@ namespace Red_Social.Core.Application.Services
 
             return suvm;
         }
+
+        public async Task<UserViewModel> GetByusernameViewModel(string fm)
+        {
+            User user = await _userRepository.GetByUsernameAsync(fm);
+
+            UserViewModel vm = _mapper.Map<UserViewModel>(user);
+            return vm;
+        }
     }
 }

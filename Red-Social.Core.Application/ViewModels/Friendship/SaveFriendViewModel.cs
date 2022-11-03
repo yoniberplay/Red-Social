@@ -15,5 +15,8 @@ namespace Red_Social.Core.Application.ViewModels.Friendship
         [DataType(DataType.Text)]
         public string amigo { get; set; }
 
+        public int IdUser { get; set; }
+        public int IdFriend { get; set; }
+
     }
 }

@@ -44,21 +44,26 @@
                                     <p class="card-text">@item.Text</p>
                                     </div>
                                 </div>
-                                <img class="bd-placeholder-img " src="@item.ImgUrl"/>
+                                <img class="bd-placeholder-img mb-2" src="@item.ImgUrl"/>
                                 @if (@item.Comments != null)
                 {
                     @foreach (CommentsViewModel j in @item.Comments)
                     {
-                        <p class="card-text"> @j.Text </p>
+                         <div class="text-center mb-2">
+                        <img class="bd-placeholder-img d-inline " src="@j.User.Photo" width="40" height="40"/>
+                        <p class="card-text d-inline text-primary fw-bold"> @j.User.Username </p>
+                        <p class="card-text d-inline"> @j.Text </p>
+                        </div>
                     }
                 }
                  <form method="post" asp-controller="Home" asp-action="AddComment">
                                
-                      <div class="w-50">
-                          <input asp-for="Idpost" value="@item.Id" hidden/>
-                            <input asp-for="NuevoComentario" class="form-control" required placeholder="Agregar un comentario..."/>
-                             <button type="submit" class="btn btn-primary btn-sm">Comentar</button>
-                             </div>
+                       <div class="">
+                        <input asp-for="Idpost" value="@item.Id" hidden />
+                        <input asp-for="NuevoComentario" class="form-control w-75 d-inline ms-3 mb-2" required placeholder="Agregar un comentario..." />
+                        <button type="submit" class="btn btn-primary btn-sm ">Comentar</button>
+
+                    </div>
 
                       </form>
                             </div>

@@ -5,9 +5,43 @@
     ViewData["Title"] = "Amigos";
     List<PostViewModel> postViews = ViewBag.friendpost;
 }
+     <div class="row">
 
-<div class="container">
+<div class="col-3">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-light">
+                    <h4>Amigos</h4>
+                </div>
+                <div class="card-body">
 
+                
+                    <form asp-controller="Amigos" asp-action="agregaramigo">
+                        @if (ViewBag.amigos != null)
+                    {
+                        @foreach (String i in ViewBag.amigos)
+                        {
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <label class="form-check-label">@i</label>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                    <button type="submit" class="btn btn-primary w-50 ms-5">Agregar</button>
+
+                    </form>
+                
+
+
+                </div>
+            </div>
+        </div>
+
+
+<div class="container col-9">
+
+    <div class="row">
     @if (postViews == null || postViews.Count() == 0)
     {
         <h2>No hay publicaciones</h2>
@@ -25,20 +59,26 @@
                         <p class="card-text">@item.Text</p>
                     </div>
                 </div>
-                <img class="bd-placeholder-img " src="@item.ImgUrl" />
+                <img class="bd-placeholder-img mb-2" src="@item.ImgUrl" />
                 @if (@item.Comments != null)
                 {
                     @foreach (CommentsViewModel j in @item.Comments)
                     {
-                        <p class="card-text"> @j.Text </p>
+                        <div class="text-center mb-2">
+                        <img class="bd-placeholder-img d-inline " src="@j.User.Photo" width="40" height="40"/>
+                        <p class="card-text d-inline text-primary fw-bold"> @j.User.Username </p>
+                        <p class="card-text d-inline"> @j.Text </p>
+                        </div>
                     }
                 }
+
                 <form method="post" asp-controller="Home" asp-action="AddComment">
 
-                    <div class="w-50">
+                    <div class="">
                         <input asp-for="Idpost" value="@item.Id" hidden />
-                        <input asp-for="NuevoComentario" class="form-control" required placeholder="Agregar un comentario..." />
-                        <button type="submit" class="btn btn-primary btn-sm">Comentar</button>
+                        <input asp-for="NuevoComentario" class="form-control w-75 d-inline ms-3 mb-2" required placeholder="Agregar un comentario..." />
+                        <button type="submit" class="btn btn-primary btn-sm ">Comentar</button>
+
                     </div>
 
                 </form>
@@ -48,3 +88,6 @@
     }}
 
 </div>
+</div>
+
+                </div>
