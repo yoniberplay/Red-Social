@@ -12,9 +12,9 @@
      <div class="card-body ">
     <form method="post" asp-controller="Home" asp-action="CreatePost" enctype = "multipart/form-data">
 
-                        <div class="mb-2 d-flex justify-content-center">
+                        <div class="mb-2 d-flex justify-content-center" >
 
-                             <div class="w-50">
+                             <div class="w-50" >
                             <span asp-validation-for="Text" class="text-danger"></span>
                             <input asp-for="Text" class="form-control" required placeholder="Que estas pensando..."/>
                             <input  asp-for="File" class="form-control"/>
@@ -36,7 +36,7 @@
                             @foreach (PostViewModel item in postViews){
                                 <div class=" d-flex justify-content-center">
 
-                           <div class="card w-50 mb-3">
+                           <div class="card w-50 mb-3"style="background-color: #CDBCAB">
 
                                 <div class="card-body">
                                     <h5 class="card-title" >@item.UserId</h5>
